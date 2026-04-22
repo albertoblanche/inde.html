@@ -1,0 +1,1082 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="theme-color" content="#0A2F6E">
+<title>TutorYa</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+:root{
+  --bd:#0A2F6E;--bm:#1A5CBF;--bl:#3B82E8;--bp:#EBF3FF;
+  --or:#F76B1C;--om:#FF8C42;--op:#FFF3EA;
+  --wh:#FFFFFF;--gb:#F4F7FB;--gt:#64748B;--gd:#E2E8F0;--td:#0F1C2E;
+}
+html,body{height:100%;overflow:hidden;}
+body{font-family:'Nunito',sans-serif;background:var(--gb);color:var(--td);}
+.app{display:flex;flex-direction:column;height:100vh;max-width:480px;margin:0 auto;background:var(--wh);}
+.sbar{height:env(safe-area-inset-top,0px);background:var(--bd);}
+.header{background:var(--bd);padding:12px 16px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+.logo{display:flex;align-items:center;gap:8px;}
+.lbox{width:34px;height:34px;background:var(--or);border-radius:9px;display:flex;align-items:center;justify-content:center;}
+.lbox svg{width:20px;height:20px;fill:none;stroke:#fff;stroke-width:2;}
+.ltxt{font-family:'Poppins',sans-serif;font-weight:800;font-size:20px;color:#fff;letter-spacing:-.5px;}
+.ltxt span{color:var(--om);}
+.hright{display:flex;align-items:center;gap:10px;}
+.ibtn{width:38px;height:38px;background:rgba(255,255,255,.12);border-radius:50%;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;}
+.ibtn svg{width:18px;height:18px;stroke:#fff;fill:none;stroke-width:2;}
+.ava{width:38px;height:38px;background:var(--or);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;color:#fff;cursor:pointer;}
+.notif-dot{position:relative;}
+.notif-dot::after{content:'3';position:absolute;top:-4px;right:-4px;background:var(--or);color:#fff;font-size:9px;font-weight:800;min-width:16px;height:16px;border-radius:8px;display:flex;align-items:center;justify-content:center;padding:0 3px;}
+.tabs{display:flex;background:var(--wh);border-bottom:1.5px solid var(--gd);flex-shrink:0;}
+.tab{flex:1;padding:13px 4px;font-size:12px;font-weight:700;text-align:center;cursor:pointer;color:var(--gt);border-bottom:3px solid transparent;transition:all .2s;white-space:nowrap;}
+.tab.active{color:var(--bm);border-bottom-color:var(--bm);}
+.content{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;}
+.hero{background:var(--bd);padding:22px 18px 24px;color:#fff;}
+.hpill{background:var(--or);color:#fff;font-size:11px;font-weight:800;padding:4px 12px;border-radius:20px;display:inline-block;margin-bottom:10px;text-transform:uppercase;letter-spacing:.3px;}
+.hero h1{font-family:'Poppins',sans-serif;font-size:22px;font-weight:800;line-height:1.25;margin-bottom:6px;}
+.hero h1 span{color:var(--om);}
+.hero p{font-size:13px;color:rgba(255,255,255,.75);line-height:1.5;}
+.hstats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:18px;}
+.hstat{background:rgba(255,255,255,.1);border-radius:12px;padding:10px 8px;text-align:center;}
+.hstat .num{font-family:'Poppins',sans-serif;font-size:18px;font-weight:800;color:var(--om);}
+.hstat .lbl{font-size:10px;color:rgba(255,255,255,.65);}
+.sbar2{padding:14px 16px;background:var(--wh);border-bottom:1px solid var(--gd);}
+.sinput{display:flex;align-items:center;gap:10px;background:var(--gb);border-radius:14px;padding:10px 14px;border:1.5px solid var(--gd);}
+.sinput svg{width:16px;height:16px;stroke:var(--gt);fill:none;stroke-width:2;flex-shrink:0;}
+.sinput input{flex:1;border:none;background:none;font-size:14px;font-family:'Nunito',sans-serif;color:var(--td);outline:none;}
+.sinput input::placeholder{color:var(--gt);}
+.frow{padding:12px 16px;display:flex;gap:8px;overflow-x:auto;-webkit-overflow-scrolling:touch;background:var(--wh);border-bottom:1px solid var(--gd);}
+.frow::-webkit-scrollbar{display:none;}
+.chip{padding:8px 14px;border-radius:22px;font-size:12px;font-weight:700;white-space:nowrap;cursor:pointer;border:1.5px solid var(--gd);background:var(--wh);color:var(--gt);transition:all .15s;flex-shrink:0;}
+.chip.on{background:var(--bp);border-color:var(--bl);color:var(--bm);}
+.slbl{padding:14px 16px 8px;display:flex;align-items:center;justify-content:space-between;}
+.slbl h2{font-family:'Poppins',sans-serif;font-size:15px;font-weight:700;}
+.slbl span{font-size:12px;color:var(--gt);}
+.plist{padding:0 16px 100px;display:flex;flex-direction:column;gap:12px;}
+.pcard{background:var(--wh);border-radius:18px;border:1.5px solid var(--gd);padding:16px;cursor:pointer;position:relative;transition:border-color .15s;}
+.pcard:active{background:var(--gb);}
+.ptop{display:flex;gap:14px;align-items:flex-start;margin-bottom:10px;}
+.pava{width:56px;height:56px;border-radius:16px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:'Poppins',sans-serif;font-weight:800;font-size:18px;color:#fff;}
+.pmeta h3{font-size:15px;font-weight:800;color:var(--td);margin-bottom:2px;}
+.pmeta .subj{font-size:12px;font-weight:700;color:var(--bm);}
+.pmeta .xp{font-size:11px;color:var(--gt);margin-top:2px;}
+.fbadge{position:absolute;top:14px;right:14px;background:var(--or);color:#fff;font-size:10px;font-weight:800;padding:3px 9px;border-radius:10px;text-transform:uppercase;}
+.badges{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px;}
+.b{padding:4px 10px;border-radius:12px;font-size:11px;font-weight:700;}
+.bb{background:var(--bp);color:#0C447C;}
+.bo{background:var(--op);color:#993C1D;}
+.bg{background:#E8FDF4;color:#0D6B3C;}
+.pfoot{display:flex;align-items:center;justify-content:space-between;padding-top:12px;border-top:1px solid var(--gd);}
+.strow{display:flex;align-items:center;gap:2px;}
+.st{font-size:13px;}
+.rn{font-size:13px;font-weight:800;color:var(--td);margin-left:4px;}
+.rv{font-size:11px;color:var(--gt);}
+.pbtn{display:flex;flex-direction:column;align-items:flex-end;gap:5px;}
+.pr{font-family:'Poppins',sans-serif;font-size:17px;font-weight:800;color:var(--or);}
+.pr sub{font-size:11px;color:var(--gt);font-family:'Nunito',sans-serif;font-weight:600;}
+.bcont{background:var(--bm);color:#fff;border:none;border-radius:22px;padding:9px 18px;font-size:13px;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif;}
+.bver{background:var(--or);color:#fff;border:none;border-radius:22px;padding:9px 18px;font-size:13px;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif;}
+
+/* MODAL */
+.modal-bg{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.5);z-index:100;display:none;align-items:flex-end;justify-content:center;}
+.modal-bg.show{display:flex;}
+.modal{background:var(--wh);border-radius:24px 24px 0 0;width:100%;max-width:480px;max-height:90vh;overflow-y:auto;-webkit-overflow-scrolling:touch;padding-bottom:env(safe-area-inset-bottom,20px);}
+.mhandle{width:36px;height:4px;background:var(--gd);border-radius:2px;margin:12px auto 0;}
+.mhead{padding:16px 20px 12px;border-bottom:1px solid var(--gd);}
+.mhead h2{font-family:'Poppins',sans-serif;font-size:18px;font-weight:800;}
+.mhead p{font-size:13px;color:var(--gt);margin-top:3px;}
+.mclose{position:absolute;top:16px;right:16px;width:32px;height:32px;background:var(--gb);border-radius:50%;border:none;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;color:var(--gt);}
+
+/* PERFIL PROFESOR */
+.profil-head{background:var(--bd);padding:24px 20px;color:#fff;text-align:center;}
+.profil-ava{width:80px;height:80px;border-radius:22px;margin:0 auto 12px;display:flex;align-items:center;justify-content:center;font-family:'Poppins',sans-serif;font-weight:800;font-size:28px;color:#fff;border:3px solid rgba(255,255,255,.3);}
+.profil-head h2{font-family:'Poppins',sans-serif;font-size:20px;font-weight:800;}
+.profil-head .subj{color:var(--om);font-size:14px;font-weight:700;margin-top:3px;}
+.profil-head .xp{color:rgba(255,255,255,.7);font-size:12px;margin-top:4px;}
+.profil-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--gd);border-top:1px solid var(--gd);}
+.pstat{background:var(--wh);padding:14px 10px;text-align:center;}
+.pstat .v{font-family:'Poppins',sans-serif;font-size:18px;font-weight:800;color:var(--bm);}
+.pstat .k{font-size:10px;color:var(--gt);}
+.psec{padding:16px 20px;border-bottom:1px solid var(--gd);}
+.psec h3{font-family:'Poppins',sans-serif;font-size:14px;font-weight:700;margin-bottom:10px;color:var(--td);}
+.psec p{font-size:13px;color:var(--gt);line-height:1.6;}
+.review-card{background:var(--gb);border-radius:14px;padding:12px;margin-bottom:10px;}
+.review-top{display:flex;align-items:center;gap:10px;margin-bottom:6px;}
+.rev-ava{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;color:#fff;flex-shrink:0;}
+.rev-name{font-size:13px;font-weight:700;}
+.rev-date{font-size:11px;color:var(--gt);}
+.rev-txt{font-size:12px;color:var(--gt);line-height:1.5;}
+.schedule-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
+.slot{background:var(--gb);border-radius:10px;padding:10px;text-align:center;cursor:pointer;border:1.5px solid transparent;transition:all .15s;}
+.slot.avail{border-color:var(--bl);background:var(--bp);}
+.slot.avail .sday{color:var(--bm);}
+.slot:active{transform:scale(.97);}
+.sday{font-size:12px;font-weight:700;color:var(--td);}
+.stime{font-size:11px;color:var(--gt);}
+.action-btns{padding:16px 20px;display:flex;flex-direction:column;gap:10px;}
+.btn-full{width:100%;padding:15px;border-radius:16px;font-size:15px;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif;border:none;transition:opacity .15s;}
+.btn-full:active{opacity:.85;}
+.btn-blue{background:var(--bm);color:#fff;}
+.btn-orange{background:var(--or);color:#fff;}
+.btn-outline{background:var(--wh);color:var(--bm);border:2px solid var(--bm);}
+
+/* PREU CARDS */
+.prlist{padding:0 16px 100px;display:flex;flex-direction:column;gap:14px;}
+.prcard{background:var(--wh);border-radius:18px;border:1.5px solid var(--gd);padding:16px;cursor:pointer;}
+.prcard.top{border:2px solid var(--bl);}
+.prcard:active{background:var(--gb);}
+.toplbl{background:var(--bp);color:#0C447C;font-size:11px;font-weight:800;padding:4px 10px;border-radius:10px;display:inline-block;margin-bottom:10px;}
+.prtop{display:flex;align-items:center;gap:12px;margin-bottom:12px;}
+.prlogo{width:54px;height:54px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-family:'Poppins',sans-serif;font-weight:800;font-size:13px;color:#fff;flex-shrink:0;}
+.prinfo{flex:1;}
+.prinfo h3{font-family:'Poppins',sans-serif;font-size:14px;font-weight:800;color:var(--td);margin-bottom:3px;line-height:1.3;}
+.prinfo .tg{font-size:11px;color:var(--gt);line-height:1.4;}
+.prprice{text-align:right;}
+.prprice .big{font-family:'Poppins',sans-serif;font-size:19px;font-weight:800;color:var(--or);}
+.prprice .sub{font-size:10px;color:var(--gt);}
+.prgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:12px;}
+.prstat{background:var(--gb);border-radius:10px;padding:9px 10px;text-align:center;}
+.prstat .val{font-family:'Poppins',sans-serif;font-size:15px;font-weight:800;color:var(--bm);}
+.prstat .key{font-size:10px;color:var(--gt);margin-top:1px;}
+.prfoot{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;padding-top:10px;border-top:1px solid var(--gd);}
+.tags{display:flex;flex-wrap:wrap;gap:5px;}
+
+/* MIS CLASES */
+.mis-section{padding:16px 16px 0;}
+.mis-section h3{font-family:'Poppins',sans-serif;font-size:14px;font-weight:700;margin-bottom:12px;color:var(--td);}
+.clase-card{background:var(--wh);border-radius:16px;border:1.5px solid var(--gd);padding:14px;margin-bottom:10px;cursor:pointer;}
+.clase-card:active{background:var(--gb);}
+.ctop{display:flex;gap:12px;align-items:center;margin-bottom:8px;}
+.cava{width:46px;height:46px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-family:'Poppins',sans-serif;font-weight:800;font-size:16px;color:#fff;flex-shrink:0;}
+.cmeta h4{font-size:14px;font-weight:800;color:var(--td);}
+.cmeta .csubj{font-size:12px;color:var(--bm);font-weight:700;}
+.cstatus{margin-left:auto;padding:4px 10px;border-radius:12px;font-size:11px;font-weight:700;}
+.st-prox{background:#EBF3FF;color:#0C447C;}
+.st-hoy{background:#FFF3EA;color:#993C1D;}
+.st-comp{background:#E8FDF4;color:#0D6B3C;}
+.cdetail{display:flex;gap:12px;font-size:12px;color:var(--gt);}
+.cdetail span{display:flex;align-items:center;gap:4px;}
+.cdetail svg{width:13px;height:13px;stroke:var(--gt);fill:none;stroke-width:2;}
+.cls-actions{display:flex;gap:8px;margin-top:10px;}
+.cls-btn{flex:1;padding:8px;border-radius:12px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Nunito',sans-serif;border:none;text-align:center;}
+.cls-blue{background:var(--bp);color:var(--bm);}
+.cls-orange{background:var(--op);color:var(--or);}
+.cls-gray{background:var(--gb);color:var(--gt);}
+
+/* PAGO MODAL */
+.pay-summary{background:var(--gb);border-radius:16px;padding:16px;margin:16px 20px;}
+.pay-row{display:flex;justify-content:space-between;font-size:13px;padding:5px 0;}
+.pay-row.total{border-top:1px solid var(--gd);margin-top:8px;padding-top:10px;font-weight:800;font-size:15px;}
+.pay-methods{padding:0 20px;}
+.pay-method{display:flex;align-items:center;gap:12px;padding:14px;border:1.5px solid var(--gd);border-radius:14px;margin-bottom:10px;cursor:pointer;transition:all .15s;}
+.pay-method.sel{border-color:var(--bm);background:var(--bp);}
+.pay-method:active{background:var(--gb);}
+.pm-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;}
+.pm-info h4{font-size:13px;font-weight:700;}
+.pm-info p{font-size:11px;color:var(--gt);}
+.pm-check{margin-left:auto;width:22px;height:22px;border-radius:50%;background:var(--bm);display:none;align-items:center;justify-content:center;}
+.pm-check svg{width:13px;height:13px;stroke:#fff;fill:none;stroke-width:3;}
+.pay-method.sel .pm-check{display:flex;}
+
+/* CONTACTO MODAL */
+.contact-info{padding:16px 20px;}
+.contact-row{display:flex;align-items:center;gap:14px;padding:14px;background:var(--gb);border-radius:14px;margin-bottom:10px;cursor:pointer;}
+.contact-row:active{opacity:.8;}
+.cicon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.cicon svg{width:22px;height:22px;fill:none;stroke-width:2;}
+.ctxt h4{font-size:14px;font-weight:700;}
+.ctxt p{font-size:12px;color:var(--gt);margin-top:1px;}
+
+/* PREU DETALLE */
+.preu-det-head{background:var(--bd);padding:24px 20px;color:#fff;}
+.preu-det-head h2{font-family:'Poppins',sans-serif;font-size:18px;font-weight:800;margin-top:12px;}
+.preu-det-head p{font-size:13px;color:rgba(255,255,255,.7);margin-top:4px;}
+.plan-card{background:var(--wh);border-radius:16px;border:1.5px solid var(--gd);padding:16px;margin-bottom:10px;}
+.plan-card.recm{border:2px solid var(--or);}
+.plan-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;}
+.plan-name{font-family:'Poppins',sans-serif;font-size:15px;font-weight:800;}
+.plan-price{font-family:'Poppins',sans-serif;font-size:22px;font-weight:800;color:var(--or);}
+.plan-price sub{font-size:12px;color:var(--gt);font-family:'Nunito',sans-serif;}
+.plan-features{list-style:none;display:flex;flex-direction:column;gap:6px;}
+.plan-features li{font-size:12px;color:var(--gt);display:flex;align-items:center;gap:6px;}
+.plan-features li::before{content:'✓';color:#0D8A4E;font-weight:800;font-size:13px;}
+
+/* BOTTOM NAV */
+.bnav{background:var(--wh);border-top:1.5px solid var(--gd);display:flex;padding-bottom:env(safe-area-inset-bottom,0px);flex-shrink:0;}
+.nbtn{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:10px 4px 8px;cursor:pointer;border:none;background:none;}
+.nbtn svg{width:24px;height:24px;stroke:var(--gt);fill:none;stroke-width:2;transition:stroke .15s;}
+.nbtn .nl{font-size:10px;font-weight:700;color:var(--gt);transition:color .15s;}
+.nbtn.active svg{stroke:var(--bm);}
+.nbtn.active .nl{color:var(--bm);}
+.page{display:none;}
+.page.active{display:block;}
+
+/* TOAST */
+.toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--td);color:#fff;padding:12px 20px;border-radius:20px;font-size:13px;font-weight:700;z-index:200;opacity:0;transition:all .3s;pointer-events:none;white-space:nowrap;}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+/* PERFIL USUARIO */
+.user-head{background:var(--bd);padding:24px 20px;color:#fff;text-align:center;}
+.user-ava{width:80px;height:80px;background:var(--or);border-radius:50%;margin:0 auto 12px;display:flex;align-items:center;justify-content:center;font-family:'Poppins',sans-serif;font-weight:800;font-size:30px;color:#fff;}
+.user-head h2{font-family:'Poppins',sans-serif;font-size:20px;font-weight:800;}
+.user-head p{color:rgba(255,255,255,.7);font-size:13px;margin-top:4px;}
+.menu-list{padding:16px;}
+.menu-item{display:flex;align-items:center;gap:14px;padding:14px;border-radius:14px;cursor:pointer;margin-bottom:4px;}
+.menu-item:active{background:var(--gb);}
+.mico{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.mico svg{width:20px;height:20px;fill:none;stroke-width:2;}
+.mitxt h4{font-size:14px;font-weight:700;}
+.mitxt p{font-size:12px;color:var(--gt);}
+.marr{margin-left:auto;color:var(--gt);}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="sbar"></div>
+  <div class="header">
+    <div class="logo">
+      <div class="lbox"><svg viewBox="0 0 24 24"><path d="M12 3L2 8l10 5 10-5-10-5zM2 16l10 5 10-5M2 12l10 5 10-5"/></svg></div>
+      <div class="ltxt">Tutor<span>Ya</span></div>
+    </div>
+    <div class="hright">
+      <button class="ibtn notif-dot" onclick="showToast('3 notificaciones nuevas')"><svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0"/></svg></button>
+      <div class="ava" onclick="switchTab('perfil')">MG</div>
+    </div>
+  </div>
+  <div class="tabs">
+    <div class="tab active" onclick="switchTab('prof')">Profesores</div>
+    <div class="tab" onclick="switchTab('preu')">Preuniversitarios</div>
+    <div class="tab" onclick="switchTab('mis')">Mis Clases</div>
+  </div>
+
+  <!-- PROFESORES PAGE -->
+  <div id="page-prof" class="page active content">
+    <div class="hero">
+      <div class="hpill">Profesores verificados</div>
+      <h1>El profe <span>ideal</span><br>para tu hijo</h1>
+      <p>+820 profesores certificados en todas las materias y niveles.</p>
+      <div class="hstats">
+        <div class="hstat"><div class="num">820+</div><div class="lbl">Profesores</div></div>
+        <div class="hstat"><div class="num">4.9★</div><div class="lbl">Rating prom.</div></div>
+        <div class="hstat"><div class="num">3.200+</div><div class="lbl">Familias</div></div>
+      </div>
+    </div>
+    <div class="sbar2">
+      <div class="sinput">
+        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+        <input type="text" placeholder="Buscar materia o profesor..." oninput="searchP(this.value)">
+      </div>
+    </div>
+    <div class="frow" id="fc1">
+      <div class="chip on" onclick="fm(this,'')">Todas</div>
+      <div class="chip" onclick="fm(this,'Matemáticas')">Matemáticas</div>
+      <div class="chip" onclick="fm(this,'Inglés')">Inglés</div>
+      <div class="chip" onclick="fm(this,'Física')">Física</div>
+      <div class="chip" onclick="fm(this,'Historia')">Historia</div>
+      <div class="chip" onclick="fm(this,'Biología')">Biología</div>
+      <div class="chip" onclick="fm(this,'Química')">Química</div>
+      <div class="chip" onclick="fm(this,'Lenguaje')">Lenguaje</div>
+    </div>
+    <div class="frow" id="fc2">
+      <div class="chip on" onclick="fn(this,'')">Todos los niveles</div>
+      <div class="chip" onclick="fn(this,'Básica')">Ed. Básica</div>
+      <div class="chip" onclick="fn(this,'Media')">Ed. Media</div>
+      <div class="chip" onclick="fn(this,'PSU/PAES')">PSU / PAES</div>
+    </div>
+    <div class="frow" id="fc3">
+      <div class="chip on" onclick="fmo(this,'')">Online y Presencial</div>
+      <div class="chip" onclick="fmo(this,'Online')">Solo Online</div>
+      <div class="chip" onclick="fmo(this,'Presencial')">Solo Presencial</div>
+    </div>
+    <div class="slbl"><h2>Profesores disponibles</h2><span id="pc">14 resultados</span></div>
+    <div class="plist" id="plist"></div>
+  </div>
+
+  <!-- PREU PAGE -->
+  <div id="page-preu" class="page content">
+    <div class="hero" style="background:#0A2F6E;">
+      <div class="hpill">PSU · PAES · Ingreso universitario</div>
+      <h1>Preuniversitarios<br><span>de confianza</span></h1>
+      <p>Compara los mejores preus de Chile por resultados, precio y ubicación.</p>
+      <div class="hstats">
+        <div class="hstat"><div class="num">42</div><div class="lbl">Preus</div></div>
+        <div class="hstat"><div class="num">87%</div><div class="lbl">Aprobación</div></div>
+        <div class="hstat"><div class="num">15 reg.</div><div class="lbl">Cobertura</div></div>
+      </div>
+    </div>
+    <div class="sbar2">
+      <div class="sinput">
+        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+        <input type="text" placeholder="Buscar preuniversitario...">
+      </div>
+    </div>
+    <div class="frow" id="pc1">
+      <div class="chip on" onclick="pmo(this,'')">Toda modalidad</div>
+      <div class="chip" onclick="pmo(this,'Online')">Online</div>
+      <div class="chip" onclick="pmo(this,'Presencial')">Presencial</div>
+      <div class="chip" onclick="pmo(this,'Mixto')">Mixto</div>
+    </div>
+    <div class="frow" id="pc2">
+      <div class="chip on" onclick="ppr(this,'')">Cualquier precio</div>
+      <div class="chip" onclick="ppr(this,'bajo')">Hasta $80K</div>
+      <div class="chip" onclick="ppr(this,'medio')">$80K–$150K</div>
+      <div class="chip" onclick="ppr(this,'alto')">+$150K</div>
+    </div>
+    <div class="frow" id="pc3">
+      <div class="chip on" onclick="pco(this,'')">Todas las comunas</div>
+      <div class="chip" onclick="pco(this,'Providencia')">Providencia</div>
+      <div class="chip" onclick="pco(this,'Las Condes')">Las Condes</div>
+      <div class="chip" onclick="pco(this,'Santiago')">Santiago Centro</div>
+      <div class="chip" onclick="pco(this,'Maipú')">Maipú</div>
+      <div class="chip" onclick="pco(this,'La Florida')">La Florida</div>
+      <div class="chip" onclick="pco(this,'Ñuñoa')">Ñuñoa</div>
+    </div>
+    <div class="slbl"><h2>Preuniversitarios</h2><span id="prcount">8 resultados</span></div>
+    <div class="prlist" id="prlist"></div>
+  </div>
+
+  <!-- MIS CLASES PAGE -->
+  <div id="page-mis" class="page content">
+    <div class="hero" style="background:var(--bd);padding:20px 18px;">
+      <div class="hpill">Mi Agenda</div>
+      <h1>Hola, <span>María González</span></h1>
+      <p>Tienes 2 clases esta semana y 1 hoy.</p>
+    </div>
+    <div style="padding:0 16px 100px;">
+      <div class="mis-section" style="padding:16px 0 0;">
+        <h3>Hoy — Miércoles 22 de enero</h3>
+        <div class="clase-card" onclick="openClaseModal('hoy')">
+          <div class="ctop">
+            <div class="cava" style="background:#1A5CBF">CR</div>
+            <div class="cmeta">
+              <h4>Camila Rojas</h4>
+              <div class="csubj">Matemáticas · PSU/PAES</div>
+            </div>
+            <div class="cstatus st-hoy">Hoy</div>
+          </div>
+          <div class="cdetail">
+            <span><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>18:00 – 19:30</span>
+            <span><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>Online (Zoom)</span>
+          </div>
+          <div class="cls-actions">
+            <div class="cls-btn cls-blue" onclick="event.stopPropagation();showToast('Abriendo Zoom...')">Unirse a clase</div>
+            <div class="cls-btn cls-gray" onclick="event.stopPropagation();showToast('Chat con Camila abierto')">Mensaje</div>
+          </div>
+        </div>
+      </div>
+      <div class="mis-section" style="padding:16px 0 0;">
+        <h3>Próximas clases</h3>
+        <div class="clase-card" onclick="openClaseModal('prox1')">
+          <div class="ctop">
+            <div class="cava" style="background:#0D8A4E">VM</div>
+            <div class="cmeta">
+              <h4>Valentina Muñoz</h4>
+              <div class="csubj">Física · PSU/PAES</div>
+            </div>
+            <div class="cstatus st-prox">Vie 24</div>
+          </div>
+          <div class="cdetail">
+            <span><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>16:00 – 17:30</span>
+            <span><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>Online (Meet)</span>
+          </div>
+          <div class="cls-actions">
+            <div class="cls-btn cls-blue" onclick="event.stopPropagation();showToast('Recordatorio activado ✓')">Recordatorio</div>
+            <div class="cls-btn cls-orange" onclick="event.stopPropagation();openCancelModal()">Reprogramar</div>
+          </div>
+        </div>
+        <div class="clase-card" onclick="openClaseModal('prox2')">
+          <div class="ctop">
+            <div class="cava" style="background:#F76B1C">TH</div>
+            <div class="cmeta">
+              <h4>Tomás Herrera</h4>
+              <div class="csubj">Inglés · Ed. Media</div>
+            </div>
+            <div class="cstatus st-prox">Lun 27</div>
+          </div>
+          <div class="cdetail">
+            <span><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>17:00 – 18:00</span>
+            <span><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>Presencial · Providencia</span>
+          </div>
+          <div class="cls-actions">
+            <div class="cls-btn cls-blue" onclick="event.stopPropagation();showToast('Ver ubicación en Maps')">Ver ubicación</div>
+            <div class="cls-btn cls-gray" onclick="event.stopPropagation();showToast('Chat con Tomás abierto')">Mensaje</div>
+          </div>
+        </div>
+      </div>
+      <div class="mis-section" style="padding:16px 0 0;">
+        <h3>Clases completadas</h3>
+        <div class="clase-card" style="opacity:.75">
+          <div class="ctop">
+            <div class="cava" style="background:#1A5CBF">CR</div>
+            <div class="cmeta"><h4>Camila Rojas</h4><div class="csubj">Matemáticas · PSU/PAES</div></div>
+            <div class="cstatus st-comp">Completada</div>
+          </div>
+          <div class="cdetail">
+            <span><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>Mar 20 · 18:00–19:30</span>
+          </div>
+          <div class="cls-actions">
+            <div class="cls-btn cls-blue" onclick="event.stopPropagation();openReviewModal()">Calificar clase</div>
+            <div class="cls-btn cls-orange" onclick="event.stopPropagation();showToast('Reservando nueva clase...')">Repetir clase</div>
+          </div>
+        </div>
+        <div class="clase-card" style="opacity:.75">
+          <div class="ctop">
+            <div class="cava" style="background:#0D8A4E">VM</div>
+            <div class="cmeta"><h4>Valentina Muñoz</h4><div class="csubj">Física · PSU/PAES</div></div>
+            <div class="cstatus st-comp">Completada</div>
+          </div>
+          <div class="cdetail">
+            <span><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>Vie 17 · 16:00–17:30</span>
+          </div>
+          <div class="cls-actions">
+            <div class="cls-btn cls-blue" onclick="event.stopPropagation();openReviewModal()">Calificar clase</div>
+            <div class="cls-btn cls-orange" onclick="event.stopPropagation();showToast('Reservando nueva clase...')">Repetir clase</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PERFIL USUARIO PAGE -->
+  <div id="page-perfil" class="page content">
+    <div class="user-head">
+      <div class="user-ava">MG</div>
+      <h2>María González</h2>
+      <p>maria.gonzalez@gmail.com · Santiago, Chile</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--gd);border-top:1px solid var(--gd);">
+      <div class="pstat"><div class="v">12</div><div class="k">Clases tomadas</div></div>
+      <div class="pstat"><div class="v">3</div><div class="k">Profesores</div></div>
+      <div class="pstat"><div class="v">$186K</div><div class="k">Invertido</div></div>
+    </div>
+    <div class="menu-list">
+      <div class="menu-item" onclick="showToast('Editando perfil...')">
+        <div class="mico" style="background:var(--bp)"><svg viewBox="0 0 24 24" style="stroke:var(--bm)"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+        <div class="mitxt"><h4>Mi perfil</h4><p>Editar datos personales</p></div>
+        <div class="marr">›</div>
+      </div>
+      <div class="menu-item" onclick="showToast('Abriendo pagos...')">
+        <div class="mico" style="background:var(--op)"><svg viewBox="0 0 24 24" style="stroke:var(--or)"><rect x="1" y="4" width="22" height="16" rx="2"/><path d="M1 10h22"/></svg></div>
+        <div class="mitxt"><h4>Métodos de pago</h4><p>Tarjeta •••• 4512 guardada</p></div>
+        <div class="marr">›</div>
+      </div>
+      <div class="menu-item" onclick="switchTab('mis')">
+        <div class="mico" style="background:#E8FDF4"><svg viewBox="0 0 24 24" style="stroke:#0D8A4E"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></div>
+        <div class="mitxt"><h4>Historial de clases</h4><p>12 clases · 3 profesores distintos</p></div>
+        <div class="marr">›</div>
+      </div>
+      <div class="menu-item" onclick="showToast('Favoritos: Camila, Valentina, Tomás')">
+        <div class="mico" style="background:#FEF3F2"><svg viewBox="0 0 24 24" style="stroke:#E24B4A"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></div>
+        <div class="mitxt"><h4>Mis favoritos</h4><p>3 profesores guardados</p></div>
+        <div class="marr">›</div>
+      </div>
+      <div class="menu-item" onclick="showToast('Soporte: soporte@tutorya.cl')">
+        <div class="mico" style="background:#EEEDFE"><svg viewBox="0 0 24 24" style="stroke:#534AB7"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></div>
+        <div class="mitxt"><h4>Ayuda y soporte</h4><p>Chat disponible 24/7</p></div>
+        <div class="marr">›</div>
+      </div>
+      <div class="menu-item" onclick="showToast('Sesión cerrada')">
+        <div class="mico" style="background:#FCEBEB"><svg viewBox="0 0 24 24" style="stroke:#E24B4A"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9"/></svg></div>
+        <div class="mitxt"><h4>Cerrar sesión</h4><p>maria.gonzalez@gmail.com</p></div>
+        <div class="marr">›</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bnav">
+    <button class="nbtn active" id="nav-prof" onclick="switchTab('prof')">
+      <svg viewBox="0 0 24 24"><path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+      <span class="nl">Profesores</span>
+    </button>
+    <button class="nbtn" id="nav-preu" onclick="switchTab('preu')">
+      <svg viewBox="0 0 24 24"><path d="M12 14l9-5-9-5-9 5 9 5z"/><path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"/></svg>
+      <span class="nl">Preuniversitarios</span>
+    </button>
+    <button class="nbtn" id="nav-mis" onclick="switchTab('mis')">
+      <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+      <span class="nl">Mis Clases</span>
+    </button>
+    <button class="nbtn" id="nav-perfil" onclick="switchTab('perfil')">
+      <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      <span class="nl">Perfil</span>
+    </button>
+  </div>
+</div>
+
+<!-- MODALS -->
+<div class="modal-bg" id="modalBg" onclick="closeMod(event)">
+  <div class="modal" id="modalContent">
+    <div class="mhandle"></div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const PROFS=[
+  {id:1,n:"Camila Rojas",m:"Matemáticas",nv:["Media","PSU/PAES"],mo:"Online",pr:18000,ra:4.9,rv:124,xp:"6 años",ver:true,feat:true,col:"#1A5CBF",ini:"CR",
+   bio:"Ingeniera Civil de la UC con Magíster en Educación Matemática. Llevo 6 años dedicada a la preparación PAES con más de 300 alumnos que han ingresado a universidades tradicionales. Mi metodología se basa en ejercitación guiada, simulacros semanales y acompañamiento personalizado.",
+   edu:"Ing. Civil · Pontificia Universidad Católica · 2015\nMg. Educación Matemática · UC · 2018",
+   disp:[{d:"Lun",t:"18:00",av:true},{d:"Mar",t:"18:00",av:false},{d:"Mié",t:"18:00",av:true},{d:"Jue",t:"18:00",av:false},{d:"Vie",t:"17:00",av:true},{d:"Sáb",t:"10:00",av:true}],
+   rev:[{n:"Ana Torres",i:"AT",c:"#1A5CBF",f:"Enero 2025",r:5,t:"Camila es excelente. Mi hijo subió 80 puntos en Matemáticas en 3 meses. Muy paciente y explica súper bien cada ejercicio."},
+        {n:"Pedro Soto",i:"PS",c:"#0D8A4E",f:"Dic 2024",r:5,t:"La mejor profesora que hemos tenido. Siempre puntual, con material preparado y muy motivadora. La recomiendo 100%."},
+        {n:"Carmen Vidal",i:"CV",c:"#F76B1C",f:"Nov 2024",r:5,t:"Mi hija logró entrar a Ingeniería UC gracias a Camila. No puedo estar más agradecida. Vale cada peso."},
+        {n:"Jorge Mendez",i:"JM",c:"#7C3AED",f:"Oct 2024",r:4,t:"Muy buena profe. A veces las clases se sienten un poco aceleradas pero el contenido es excelente."}]},
+  {id:2,n:"Tomás Herrera",m:"Inglés",nv:["Básica","Media"],mo:"Presencial",pr:15000,ra:4.8,rv:89,xp:"4 años",ver:true,feat:false,col:"#F76B1C",ini:"TH",
+   bio:"Profesor certificado por Cambridge y con experiencia en institutos de idiomas internacionales. Mis clases son dinámicas, conversacionales y adaptadas al nivel de cada alumno. Trabajo en Providencia y atieno alumnos de básica y media.",
+   edu:"Pedagogía en Inglés · Universidad Diego Portales · 2019\nCertificación CELTA · Cambridge · 2021",
+   disp:[{d:"Lun",t:"17:00",av:true},{d:"Mar",t:"16:00",av:true},{d:"Mié",t:"17:00",av:false},{d:"Jue",t:"16:00",av:true},{d:"Vie",t:"16:00",av:false},{d:"Sáb",t:"09:00",av:true}],
+   rev:[{n:"Rosa Muñoz",i:"RM",c:"#F76B1C",f:"Enero 2025",r:5,t:"Tomás logró que mi hijo ame el inglés. Las clases son muy entretenidas y dinámicas. Súper recomendado."},
+        {n:"Felipe Araya",i:"FA",c:"#1A5CBF",f:"Dic 2024",r:5,t:"Excelente metodología. Mi hija pasó de un 4 a un 6.5 en inglés en 2 meses. Muy comprometido."},
+        {n:"Lucia González",i:"LG",c:"#0D8A4E",f:"Nov 2024",r:4,t:"Muy buen profe aunque a veces hay que insistir para que responda WhatsApp. El resultado fue muy bueno."}]},
+  {id:3,n:"Valentina Muñoz",m:"Física",nv:["Media","PSU/PAES"],mo:"Online",pr:20000,ra:5.0,rv:67,xp:"8 años",ver:true,feat:true,col:"#0D8A4E",ini:"VM",
+   bio:"Magíster en Física de la USACH con 8 años enseñando. Me especializo en preparación PAES Ciencias y tengo resultados comprobados: el 92% de mis alumnos supera los 700 puntos. Clases con material propio, simulacros y análisis de errores.",
+   edu:"Lic. Física · Universidad de Santiago · 2014\nMg. Física · USACH · 2016",
+   disp:[{d:"Lun",t:"16:00",av:false},{d:"Mar",t:"16:00",av:true},{d:"Mié",t:"16:00",av:false},{d:"Jue",t:"17:00",av:true},{d:"Vie",t:"16:00",av:true},{d:"Sáb",t:"11:00",av:true}],
+   rev:[{n:"Martina López",i:"ML",c:"#0D8A4E",f:"Enero 2025",r:5,t:"Valentina es increíble. Explica todo desde cero con mucha paciencia y los ejercicios que deja son súper útiles para la PAES."},
+        {n:"Diego Castillo",i:"DC",c:"#1A5CBF",f:"Dic 2024",r:5,t:"El 100% de lo que aprendí en Física para la PAES fue con Valentina. Logré 760 puntos y entré a Ing. Civil. ¡Gracias!"},
+        {n:"Isabel Rojas",i:"IR",c:"#F76B1C",f:"Nov 2024",r:5,t:"Super organizada, puntual y con material excelente. Mis notas mejoraron notablemente en pocos meses."}]},
+  {id:4,n:"Sebastián Lagos",m:"Historia",nv:["Básica","Media"],mo:"Presencial",pr:12000,ra:4.7,rv:43,xp:"3 años",ver:false,feat:false,col:"#7C3AED",ini:"SL",
+   bio:"Historiador de la PUC apasionado por enseñar de forma entretenida. Mis clases combinan storytelling, mapas conceptuales y análisis de fuentes. Atiendo alumnos de básica y media en Las Condes y Ñuñoa.",
+   edu:"Lic. Historia · Pontificia Universidad Católica · 2020",
+   disp:[{d:"Lun",t:"15:00",av:true},{d:"Mar",t:"15:00",av:true},{d:"Mié",t:"15:00",av:false},{d:"Jue",t:"15:00",av:true},{d:"Vie",t:"15:00",av:true},{d:"Sáb",t:"10:00",av:false}],
+   rev:[{n:"Sofía Martínez",i:"SM",c:"#7C3AED",f:"Enero 2025",r:5,t:"Sebastián hace que la historia sea fascinante. Mi hija antes odiaba la materia y ahora estudia por cuenta propia. Excelente profe."},
+        {n:"Andrés Vega",i:"AV",c:"#1A5CBF",f:"Dic 2024",r:4,t:"Muy buen profe, domina el contenido. Me falta un poco más de estructura en las clases pero el resultado fue bueno."}]},
+  {id:5,n:"Isidora Soto",m:"Biología",nv:["Media","PSU/PAES"],mo:"Online",pr:17000,ra:4.9,rv:98,xp:"5 años",ver:true,feat:false,col:"#DC2626",ini:"IS",
+   bio:"Bióloga de la UV con especialización en docencia universitaria. Mis clases de Biología para la PAES usan casos clínicos, esquemas visuales y ejercicios contextualizados. El 88% de mis alumnos logra más de 680 puntos en Ciencias.",
+   edu:"Biología · Universidad de Valparaíso · 2018\nDiplomado Docencia Universitaria · UV · 2020",
+   disp:[{d:"Lun",t:"19:00",av:true},{d:"Mar",t:"19:00",av:true},{d:"Mié",t:"19:00",av:false},{d:"Jue",t:"18:00",av:true},{d:"Vie",t:"18:00",av:true},{d:"Sáb",t:"09:00",av:false}],
+   rev:[{n:"Claudia Fuentes",i:"CF",c:"#DC2626",f:"Enero 2025",r:5,t:"Isidora tiene un don para explicar cosas complejas de forma simple. Los mapas conceptuales que usa son brutales. Muy recomendada."},
+        {n:"Rodrigo Peña",i:"RP",c:"#0D8A4E",f:"Dic 2024",r:5,t:"Subí 90 puntos en Biología gracias a Isidora. El material que prepara es de muy alta calidad y siempre está disponible para consultas."},
+        {n:"Daniela Ibáñez",i:"DI",c:"#1A5CBF",f:"Nov 2024",r:5,t:"Excelente profesora. Muy paciente y organizada. Las clases siempre tienen estructura clara y objetivos concretos."}]},
+  {id:6,n:"Felipe Contreras",m:"Lenguaje",nv:["Básica","Media"],mo:"Presencial",pr:13000,ra:4.6,rv:55,xp:"7 años",ver:true,feat:false,col:"#D97706",ini:"FC",
+   bio:"Pedagogo en Castellano de la UDP con 7 años de experiencia en comprensión lectora y redacción argumentativa. Especialista en preparación PAES Comprensión Lectora. Atiendo alumnos en Santiago Centro y Maipú.",
+   edu:"Pedagogía en Castellano · U. Diego Portales · 2016",
+   disp:[{d:"Lun",t:"16:00",av:true},{d:"Mar",t:"16:00",av:false},{d:"Mié",t:"16:00",av:true},{d:"Jue",t:"16:00",av:true},{d:"Vie",t:"16:00",av:false},{d:"Sáb",t:"10:00",av:true}],
+   rev:[{n:"Patricia Mora",i:"PM",c:"#D97706",f:"Dic 2024",r:5,t:"Felipe mejoró notablemente la redacción de mi hijo. Muy metódico y exigente de la buena forma. Los resultados hablan solos."},
+        {n:"Cristian Torres",i:"CT",c:"#7C3AED",f:"Nov 2024",r:4,t:"Buen profe, sabe mucho del tema. Las clases son un poco largas a veces pero el contenido es excelente."}]},
+  {id:7,n:"Daniela Vega",m:"Química",nv:["Media","PSU/PAES"],mo:"Online",pr:19000,ra:4.8,rv:72,xp:"6 años",ver:true,feat:true,col:"#0891B2",ini:"DV",
+   bio:"Química industrial de la UCN con 6 años enseñando química para la PAES. Me especializo en nomenclatura, estequiometría y termoquímica. Mi tasa de aprobación PAES supera el 85%.",
+   edu:"Ing. Química Industrial · U. Católica del Norte · 2017",
+   disp:[{d:"Lun",t:"20:00",av:true},{d:"Mar",t:"20:00",av:true},{d:"Mié",t:"20:00",av:true},{d:"Jue",t:"19:00",av:false},{d:"Vie",t:"19:00",av:true},{d:"Sáb",t:"11:00",av:false}],
+   rev:[{n:"Gabriela Soto",i:"GS",c:"#0891B2",f:"Enero 2025",r:5,t:"Daniela explica química de una forma que nunca había entendido. Subí de un 4.5 a un 6.8 en química en 3 meses."},
+        {n:"Mauricio Reyes",i:"MR",c:"#1A5CBF",f:"Dic 2024",r:5,t:"Excelente profesora, muy preparada y con material propio actualizado. La recomiendo a todos los que van para la PAES Ciencias."},
+        {n:"Antonia Díaz",i:"AD",c:"#0D8A4E",f:"Nov 2024",r:4,t:"Muy buena profe, a veces las clases son un poco intensas pero aprendo muchísimo. Vale la pena el esfuerzo."}]},
+  {id:8,n:"Matías Fuentes",m:"Matemáticas",nv:["Básica"],mo:"Presencial",pr:11000,ra:4.5,rv:31,xp:"2 años",ver:false,feat:false,col:"#1A5CBF",ini:"MF",
+   bio:"Estudiante de Ingeniería Civil en la PUC y tutor con 2 años de experiencia en básica. Clases pacientes, con énfasis en consolidar las bases matemáticas desde los fundamentos.",
+   edu:"Ing. Civil (en curso) · Pontificia Universidad Católica",
+   disp:[{d:"Lun",t:"15:00",av:true},{d:"Mar",t:"15:00",av:true},{d:"Mié",t:"15:00",av:true},{d:"Jue",t:"15:00",av:false},{d:"Vie",t:"15:00",av:true},{d:"Sáb",t:"09:00",av:true}],
+   rev:[{n:"Sandra Muñoz",i:"SM",c:"#1A5CBF",f:"Dic 2024",r:5,t:"Matías es súper paciente con mi hijo que tiene dificultades. Lo recomiendo mucho, muy dedicado y comprometido."},
+        {n:"Luis Araya",i:"LA",c:"#D97706",f:"Nov 2024",r:4,t:"Joven pero sabe mucho. Mi hija lo quiere mucho y las notas mejoraron bastante. Buen precio también."}]},
+  {id:9,n:"Carolina Espinoza",m:"Matemáticas",nv:["Media","PSU/PAES"],mo:"Online",pr:16000,ra:4.7,rv:81,xp:"5 años",ver:true,feat:false,col:"#0D8A4E",ini:"CE",
+   bio:"Profesora de Matemáticas de la UMCE con 5 años de experiencia en preparación PAES. Metodología basada en aprendizaje activo y resolución de problemas contextualizados.",
+   edu:"Pedagogía en Matemáticas · UMCE · 2018",
+   disp:[{d:"Lun",t:"19:00",av:true},{d:"Mar",t:"19:00",av:false},{d:"Mié",t:"19:00",av:true},{d:"Jue",t:"19:00",av:true},{d:"Vie",t:"18:00",av:true},{d:"Sáb",t:"10:00",av:false}],
+   rev:[{n:"Pablo Morales",i:"PM",c:"#0D8A4E",f:"Enero 2025",r:5,t:"Carolina es excelente, explica con mucha claridad y siempre está disponible para resolver dudas fuera de clase."},
+        {n:"Ana Cisternas",i:"AC",c:"#1A5CBF",f:"Dic 2024",r:4,t:"Buena profe, muy ordenada y puntual. Mi hijo mejoró bastante las notas del colegio."}]},
+  {id:10,n:"Roberto Cáceres",m:"Física",nv:["Media"],mo:"Presencial",pr:14000,ra:4.6,rv:38,xp:"4 años",ver:true,feat:false,col:"#7C3AED",ini:"RC",
+   bio:"Profesor de Física con vocación por hacer que los alumnos entiendan la física real. Uso experimentos simples y ejemplos de la vida cotidiana. Atiendo en Ñuñoa y La Florida.",
+   edu:"Pedagogía en Física · U. de Chile · 2019",
+   disp:[{d:"Lun",t:"17:00",av:true},{d:"Mar",t:"17:00",av:true},{d:"Mié",t:"17:00",av:true},{d:"Jue",t:"16:00",av:false},{d:"Vie",t:"16:00",av:true},{d:"Sáb",t:"09:00",av:true}],
+   rev:[{n:"Catalina Bravo",i:"CB",c:"#7C3AED",f:"Dic 2024",r:5,t:"Roberto hace que la física sea muy entretenida. Mi hijo fue con él 4 meses y pasó de un 4 a un 6.5. Súper recomendado."},
+        {n:"Simón Vera",i:"SV",c:"#F76B1C",f:"Nov 2024",r:4,t:"Buen profe. Clases muy dinámicas y con buen ambiente. El resultado fue muy positivo."}]},
+  {id:11,n:"Francisca Ibáñez",m:"Inglés",nv:["Básica","Media"],mo:"Online",pr:16000,ra:4.8,rv:61,xp:"5 años",ver:true,feat:false,col:"#DC2626",ini:"FI",
+   bio:"Traductora e intérprete de la UAI con 5 años de experiencia docente. Especializada en inglés conversacional y preparación para certificaciones internacionales (KET, PET, FCE).",
+   edu:"Traducción e Interpretación · UAI · 2018\nCertificación DELTA · Cambridge · 2022",
+   disp:[{d:"Lun",t:"18:00",av:true},{d:"Mar",t:"18:00",av:true},{d:"Mié",t:"18:00",av:false},{d:"Jue",t:"17:00",av:true},{d:"Vie",t:"17:00",av:true},{d:"Sáb",t:"10:00",av:true}],
+   rev:[{n:"Victoria Paredes",i:"VP",c:"#DC2626",f:"Enero 2025",r:5,t:"Francisca es fantástica. Mi hija pasó el FCE con distinción gracias a ella. Las clases son muy entretenidas y dinámicas."}]},
+  {id:12,n:"Ignacio Morales",m:"Historia",nv:["Media","PSU/PAES"],mo:"Online",pr:13000,ra:4.5,rv:27,xp:"3 años",ver:false,feat:false,col:"#D97706",ini:"IM",
+   bio:"Historiador y magíster en Ciencias Políticas de la UDP. Preparación PAES Historia y Ciencias Sociales con enfoque en comprensión de procesos y análisis de fuentes históricas.",
+   edu:"Historia · U. Diego Portales · 2020\nMg. Ciencias Políticas · UDP · 2022",
+   disp:[{d:"Lun",t:"20:00",av:true},{d:"Mar",t:"20:00",av:true},{d:"Mié",t:"20:00",av:true},{d:"Jue",t:"20:00",av:true},{d:"Vie",t:"19:00",av:true},{d:"Sáb",t:"11:00",av:true}],
+   rev:[{n:"Marcela Oyarzún",i:"MO",c:"#D97706",f:"Dic 2024",r:5,t:"Ignacio domina la materia a la perfección. Muy buen manejo del programa PAES y del estilo de preguntas."}]},
+  {id:13,n:"Natalia Rivas",m:"Biología",nv:["Básica","Media"],mo:"Presencial",pr:15000,ra:4.7,rv:44,xp:"4 años",ver:true,feat:false,col:"#0891B2",ini:"NR",
+   bio:"Bióloga y docente de la Universidad de Concepción. Clases presenciales en Maipú y Pudahuel. Mi enfoque es visual y lúdico, usando modelos y maquetas para enseñar biología a alumnos de básica y media.",
+   edu:"Biología · U. de Concepción · 2019",
+   disp:[{d:"Lun",t:"15:00",av:true},{d:"Mar",t:"15:00",av:true},{d:"Mié",t:"15:00",av:true},{d:"Jue",t:"14:00",av:false},{d:"Vie",t:"14:00",av:true},{d:"Sáb",t:"09:00",av:true}],
+   rev:[{n:"Verónica Lagos",i:"VL",c:"#0891B2",f:"Enero 2025",r:5,t:"Natalia es increíble con los niños. Mi hijo de 10 años la adora y ahora le encanta la biología. Muy recomendada."}]},
+  {id:14,n:"Andrés Maturana",m:"Química",nv:["Media"],mo:"Presencial",pr:14000,ra:4.6,rv:33,xp:"5 años",ver:true,feat:false,col:"#B91C1C",ini:"AM",
+   bio:"Químico farmacéutico de la PUCV con 5 años de experiencia docente. Especialista en química orgánica e inorgánica para educación media. Clases en Providencia y Ñuñoa.",
+   edu:"Química Farmacéutica · PUCV · 2018",
+   disp:[{d:"Lun",t:"17:00",av:false},{d:"Mar",t:"17:00",av:true},{d:"Mié",t:"17:00",av:true},{d:"Jue",t:"17:00",av:true},{d:"Vie",t:"16:00",av:false},{d:"Sáb",t:"10:00",av:true}],
+   rev:[{n:"Esteban Cornejo",i:"EC",c:"#B91C1C",f:"Dic 2024",r:5,t:"Andrés logró que mi hija entendiera la química por primera vez. Sus explicaciones son muy claras y ordenadas."}]}
+];
+
+const PREUS=[
+  {id:1,n:"Preu Pedro de Valdivia",s:"PDV",tg:"Líderes en puntajes PAES desde 1985",col:"#0A2F6E",pr:145000,mo:"Presencial",ra:4.9,rv:1240,com:["Providencia","Las Condes","Santiago"],pt:720,ap:91,al:2800,años:38,top:true,
+   desc:"El Preu Pedro de Valdivia es reconocido como uno de los mejores preuniversitarios de Chile con más de 38 años de historia. Contamos con profesores altamente calificados, material propio y una metodología probada que permite a nuestros alumnos alcanzar los puntajes requeridos para las carreras más exigentes del país.",
+   planes:[{n:"Plan Básico",pr:95000,f:["Clases Matemáticas y Lenguaje","8 hrs semanales","Material digital incluido","1 simulacro mensual"]},{n:"Plan Completo",pr:145000,f:["Todas las materias PAES","14 hrs semanales","Material físico y digital","Simulacros semanales","Plataforma online 24/7"],rec:true},{n:"Plan Intensivo",pr:195000,f:["Todo Plan Completo","Tutorías personalizadas","Análisis de resultados","Acceso clases grabadas","Psicólogo académico"]}],
+   rev:[{n:"Javiera Torres",i:"JT",c:"#0A2F6E",f:"Ene 2025",r:5,t:"Mi hijo entró a Medicina gracias al PDV. Los profesores son increíbles y la preparación es muy completa. Totalmente recomendado."},{n:"Carlos Muñoz",i:"CM",c:"#F76B1C",f:"Dic 2024",r:5,t:"Llevamos 3 hijos al PDV y todos han entrado a sus carreras de primera opción. La metodología de simulacros es excelente."},{n:"Paulina Rivas",i:"PR",c:"#0D8A4E",f:"Nov 2024",r:4,t:"Muy buen preu. Las instalaciones son excelentes y los profes dominan los contenidos. Un poco caro pero vale la pena."}]},
+  {id:2,n:"Preu Universitario de Chile",s:"PUC",tg:"Online con tutores 24/7 y plataforma digital líder",col:"#B91C1C",pr:89000,mo:"Online",ra:4.7,rv:890,com:["Todo Chile"],pt:695,ap:85,al:4200,años:15,top:false,
+   desc:"El Preu Universitario de Chile es 100% online, con la mejor plataforma de preparación PAES del país. Miles de ejercicios, clases grabadas, tutores en vivo y simulacros cronometrados. Ideal para alumnos de cualquier región de Chile.",
+   planes:[{n:"Plan Mensual",pr:89000,f:["Acceso plataforma completa","Clases grabadas ilimitadas","2 tutorías en vivo/mes","2 simulacros mensuales"]},{n:"Plan Semestral",pr:69000,f:["Todo Plan Mensual","Precio especial 6 meses","Tutorías ilimitadas","Informe de progreso mensual"],rec:true}],
+   rev:[{n:"Rodrigo Alvarado",i:"RA",c:"#B91C1C",f:"Ene 2025",r:5,t:"Increíble plataforma. Desde Antofagasta pude prepararme igual que en Santiago. Entré a la carrera de mi sueño."},{n:"Fernanda Castro",i:"FC",c:"#1A5CBF",f:"Dic 2024",r:4,t:"Muy buena plataforma y mucho contenido. Los tutores en vivo son excelentes, aunque a veces hay que esperar turno."}]},
+  {id:3,n:"CPECH",s:"CPE",tg:"El preuniversitario de los universitarios",col:"#1A5CBF",pr:118000,mo:"Mixto",ra:4.8,rv:2100,com:["Providencia","Maipú","La Florida","Ñuñoa"],pt:710,ap:88,al:5500,años:32,top:true,
+   desc:"CPECH es el preuniversitario más grande de Chile, con sedes en todo el país y una metodología que combina clases presenciales con acceso online. Nuestros académicos son profesionales de las mejores universidades y nuestros materiales se actualizan cada año según el formato PAES.",
+   planes:[{n:"Plan Regular",pr:95000,f:["Clases presenciales 3 veces/semana","Acceso plataforma CPECH Online","Material del estudiante","3 simulacros al mes"]},{n:"Plan Premium",pr:118000,f:["Clases presenciales 5 veces/semana","Acceso plataforma completa","Material físico y digital","Simulacros semanales","App móvil dedicada"],rec:true},{n:"Plan Online",pr:72000,f:["Solo modalidad online","Videos y ejercicios","Simulacros cronometrados","Soporte vía chat"]}],
+   rev:[{n:"Andrea López",i:"AL",c:"#1A5CBF",f:"Ene 2025",r:5,t:"CPECH es el mejor preu de Chile. Los profesores son todos universitarios que enseñan muy bien. Mi hija entró a Derecho UC."},{n:"Mario Soto",i:"MS",c:"#0D8A4E",f:"Dic 2024",r:5,t:"5 años llevando hijos a CPECH y siempre con excelentes resultados. La metodología evoluciona cada año."},{n:"Sandra Vidal",i:"SV",c:"#7C3AED",f:"Nov 2024",r:4,t:"Muy buen preu aunque las sedes a veces están muy llenas. El contenido es excelente y los simulacros son lo mejor."}]},
+  {id:4,n:"Preu Mentored",s:"MNT",tg:"Clases personalizadas y seguimiento continuo semanal",col:"#F76B1C",pr:75000,mo:"Online",ra:4.6,rv:340,com:["Todo Chile"],pt:680,ap:82,al:950,años:6,top:false,
+   desc:"Mentored es el preu online más personalizado de Chile. Cada alumno tiene un tutor asignado que hace seguimiento semanal de su progreso y adapta el plan de estudios según sus fortalezas y debilidades.",
+   planes:[{n:"Plan Individual",pr:75000,f:["Tutor personal asignado","Plan de estudio personalizado","Clases grupales online","Seguimiento semanal","Informes para los padres"],rec:true}],
+   rev:[{n:"Constanza Herrera",i:"CH",c:"#F76B1C",f:"Ene 2025",r:5,t:"Mentored fue un cambio de juego para mi hijo. El tutor personal marcó la diferencia. Muy recomendado."},{n:"Tomás Gutiérrez",i:"TG",c:"#1A5CBF",f:"Dic 2024",r:4,t:"Buen enfoque personalizado. El seguimiento semanal es excelente para mantener la constancia."}]},
+  {id:5,n:"Preu Demre",s:"DMR",tg:"Simulacros semanales y análisis profundo PAES",col:"#0D8A4E",pr:95000,mo:"Mixto",ra:4.7,rv:670,com:["Santiago","Ñuñoa","Las Condes"],pt:700,ap:86,al:1800,años:20,top:false,
+   desc:"Preu Demre se especializa en la preparación técnica y analítica para la PAES. Nuestro diferencial son los simulacros semanales corregidos con análisis detallado de errores y estadísticas de rendimiento para cada alumno.",
+   planes:[{n:"Plan Mixto",pr:95000,f:["3 clases presenciales/semana","Plataforma online","Simulacro semanal corregido","Análisis estadístico personal","Asesoría vocacional"],rec:true},{n:"Plan Online",pr:68000,f:["Clases online","Simulacros semanales","Plataforma de ejercicios","Chat con tutores"]}],
+   rev:[{n:"Ignacio Bravo",i:"IB",c:"#0D8A4E",f:"Ene 2025",r:5,t:"Los simulacros semanales son lo mejor. Aprendes a manejar el tiempo y el estrés del examen. Excelente metodología."},{n:"Paz Rodríguez",i:"PR",c:"#1A5CBF",f:"Dic 2024",r:4,t:"Muy buen preu enfocado en la PAES específicamente. Los análisis de errores son muy útiles."}]},
+  {id:6,n:"Preu Forja",s:"FRJ",tg:"Preuniversitario social con becas disponibles",col:"#7C3AED",pr:55000,mo:"Presencial",ra:4.5,rv:210,com:["Maipú","La Florida","Puente Alto"],pt:665,ap:79,al:620,años:10,top:false,
+   desc:"Preu Forja nació con una misión social: hacer accesible la preparación PAES de calidad para todos los jóvenes de Chile. Contamos con becas parciales y totales según situación socioeconómica.",
+   planes:[{n:"Plan Regular",pr:55000,f:["Clases presenciales","Material didáctico","Simulacros mensuales","Apoyo psicológico"]},{n:"Plan Beca 50%",pr:27500,f:["Todo Plan Regular","50% de descuento","Postulación por mérito","Cupos limitados"]}],
+   rev:[{n:"Valentina Fuentes",i:"VF",c:"#7C3AED",f:"Ene 2025",r:5,t:"Gracias a Forja y a su beca pude prepararme para la PAES y entré a Enfermería. Un preu con vocación social real."},{n:"Miguel Ángel Soto",i:"MS",c:"#F76B1C",f:"Dic 2024",r:4,t:"Buen preu para el precio. Los profes están muy comprometidos y el ambiente es muy bueno."}]},
+  {id:7,n:"Preu Explora",s:"EXP",tg:"Metodología activa basada en proyectos y pensamiento crítico",col:"#0891B2",pr:105000,mo:"Mixto",ra:4.7,rv:430,com:["Las Condes","Vitacura","Providencia"],pt:705,ap:87,al:1200,años:12,top:false,
+   desc:"Preu Explora usa una metodología innovadora basada en aprendizaje activo, trabajo colaborativo y pensamiento crítico. Nuestros alumnos no solo aprenden para la PAES sino para la vida universitaria.",
+   planes:[{n:"Plan Estándar",pr:105000,f:["Clases innovadoras","Trabajo en equipo","Simulacros mensuales","Acceso plataforma online"],rec:true}],
+   rev:[{n:"Camila Reyes",i:"CR",c:"#0891B2",f:"Ene 2025",r:5,t:"Explora es diferente a todos los demás preus. Las clases son muy entretenidas y se aprende de verdad. Muy recomendado."}]},
+  {id:8,n:"Preu Nacional",s:"PNA",tg:"Cobertura nacional con sedes en las 16 regiones",col:"#B45309",pr:82000,mo:"Presencial",ra:4.5,rv:1870,com:["Todo Chile"],pt:685,ap:83,al:8200,años:25,top:false,
+   desc:"El Preu Nacional es el preuniversitario con mayor cobertura geográfica del país, con sedes en todas las regiones de Chile. Metodología estandarizada de alta calidad y acceso garantizado para alumnos de todo el territorio.",
+   planes:[{n:"Plan Regional",pr:82000,f:["Clases presenciales","Material estandarizado","Simulacros mensuales","App móvil"],rec:true}],
+   rev:[{n:"Héctor Molina",i:"HM",c:"#B45309",f:"Dic 2024",r:4,t:"Buen preu para regiones. La calidad es consistente en todas las sedes y los profes están muy bien capacitados."}]}
+];
+
+let fM='',fN='',fMo='';
+let fPM='',fPP='',fPC='';
+let curP=null,curPreu=null,selPay=0;
+
+function stars(r,big){
+  let s='';
+  const sz=big?'16px':'13px';
+  for(let i=1;i<=5;i++) s+=`<span style="color:${i<=Math.round(r)?'#F59E0B':'#D1D5DB'};font-size:${sz}">★</span>`;
+  return s;
+}
+
+function renderProfs(data){
+  document.getElementById('pc').textContent=data.length+' resultados';
+  const el=document.getElementById('plist');
+  el.innerHTML='';
+  data.forEach(p=>{
+    el.innerHTML+=`<div class="pcard" onclick="openProf(${p.id})">
+      ${p.feat?'<div class="fbadge">Destacado</div>':''}
+      <div class="ptop">
+        <div class="pava" style="background:${p.col}">${p.ini}</div>
+        <div class="pmeta"><h3>${p.n}</h3><div class="subj">${p.m}</div><div class="xp">${p.xp} de experiencia</div></div>
+      </div>
+      <div style="font-size:12px;color:var(--gt);line-height:1.5;margin-bottom:10px">${p.bio.substring(0,110)}...</div>
+      <div class="badges">
+        ${p.nv.map(n=>`<span class="b bb">${n}</span>`).join('')}
+        <span class="b ${p.mo==='Online'?'bg':'bo'}">${p.mo}</span>
+        ${p.ver?'<span class="b bg">✓ Verificado</span>':''}
+      </div>
+      <div class="pfoot">
+        <div><div class="strow">${stars(p.ra)}<span class="rn">${p.ra}</span></div><div class="rv">${p.rv} reseñas</div></div>
+        <div class="pbtn">
+          <div class="pr">$${p.pr.toLocaleString('es-CL')}<sub>/hr</sub></div>
+          <button class="bver" onclick="event.stopPropagation();openProf(${p.id})">Ver perfil</button>
+        </div>
+      </div>
+    </div>`;
+  });
+}
+
+function renderPreus(data){
+  document.getElementById('prcount').textContent=data.length+' resultados';
+  const el=document.getElementById('prlist');
+  el.innerHTML='';
+  data.forEach(p=>{
+    const mc=p.mo==='Online'?'bg':p.mo==='Presencial'?'bo':'bb';
+    el.innerHTML+=`<div class="prcard${p.top?' top':''}" onclick="openPreu(${p.id})">
+      ${p.top?'<div class="toplbl">★ Top Pick TutorYa</div>':''}
+      <div class="prtop">
+        <div class="prlogo" style="background:${p.col}">${p.s}</div>
+        <div class="prinfo"><h3>${p.n}</h3><div class="tg">${p.tg}</div></div>
+        <div class="prprice"><div class="big">$${Math.round(p.pr/1000)}K</div><div class="sub">/mes</div></div>
+      </div>
+      <div class="prgrid">
+        <div class="prstat"><div class="val">${p.pt}</div><div class="key">Puntaje prom.</div></div>
+        <div class="prstat"><div class="val">${p.ap}%</div><div class="key">Acceso univ.</div></div>
+        <div class="prstat"><div class="val">${(p.al/1000).toFixed(1)}K</div><div class="key">Alumnos/año</div></div>
+        <div class="prstat"><div class="val">${p.años} años</div><div class="key">Experiencia</div></div>
+      </div>
+      <div class="prfoot">
+        <div class="tags">
+          ${p.com.slice(0,2).map(c=>`<span class="b bb">${c}</span>`).join('')}
+          ${p.com.length>2?`<span class="b bb">+${p.com.length-2}</span>`:''}
+          <span class="b ${mc}">${p.mo}</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:4px">${stars(p.ra)}<span class="rn">${p.ra}</span></div>
+      </div>
+    </div>`;
+  });
+}
+
+function applyP(){
+  let d=PROFS;
+  if(fM) d=d.filter(p=>p.m===fM);
+  if(fN) d=d.filter(p=>p.nv.includes(fN));
+  if(fMo) d=d.filter(p=>p.mo===fMo);
+  renderProfs(d);
+}
+function applyPr(){
+  let d=PREUS;
+  if(fPM) d=d.filter(p=>p.mo===fPM);
+  if(fPP==='bajo') d=d.filter(p=>p.pr<=80000);
+  else if(fPP==='medio') d=d.filter(p=>p.pr>80000&&p.pr<=150000);
+  else if(fPP==='alto') d=d.filter(p=>p.pr>150000);
+  if(fPC) d=d.filter(p=>p.com.includes(fPC)||p.com.includes('Todo Chile'));
+  renderPreus(d);
+}
+function sc(pid,el){document.querySelectorAll('#'+pid+' .chip').forEach(c=>c.classList.remove('on'));el.classList.add('on');}
+function fm(el,v){sc('fc1',el);fM=v;applyP();}
+function fn(el,v){sc('fc2',el);fN=v;applyP();}
+function fmo(el,v){sc('fc3',el);fMo=v;applyP();}
+function pmo(el,v){sc('pc1',el);fPM=v;applyPr();}
+function ppr(el,v){sc('pc2',el);fPP=v;applyPr();}
+function pco(el,v){sc('pc3',el);fPC=v;applyPr();}
+function searchP(q){const d=q?PROFS.filter(p=>p.n.toLowerCase().includes(q.toLowerCase())||p.m.toLowerCase().includes(q.toLowerCase())):PROFS;renderProfs(d);}
+
+function switchTab(t){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.nbtn').forEach(n=>n.classList.remove('active'));
+  document.getElementById('page-'+t).classList.add('active');
+  const nb=document.getElementById('nav-'+t);
+  if(nb) nb.classList.add('active');
+  const tabs=document.querySelectorAll('.tab');
+  if(t==='prof')tabs[0].classList.add('active');
+  else if(t==='preu')tabs[1].classList.add('active');
+  else if(t==='mis')tabs[2].classList.add('active');
+}
+
+function openMod(html){
+  const mc=document.getElementById('modalContent');
+  mc.innerHTML='<div class="mhandle"></div>'+html;
+  document.getElementById('modalBg').classList.add('show');
+}
+function closeMod(e){if(e.target===document.getElementById('modalBg'))document.getElementById('modalBg').classList.remove('show');}
+function closeMod2(){document.getElementById('modalBg').classList.remove('show');}
+
+function openProf(id){
+  const p=PROFS.find(x=>x.id===id);
+  curP=p;
+  const dispHTML=p.disp.map(d=>`<div class="slot${d.av?' avail':''}" onclick="${d.av?`selectSlot('${d.d} ${d.t}')`:''}"">
+    <div class="sday">${d.d}</div><div class="stime">${d.d.av?d.t:'No disponible'}</div>
+    <div class="stime">${d.t}</div>
+    ${d.av?'<div style="font-size:9px;margin-top:2px;color:#0D8A4E">Disponible</div>':'<div style="font-size:9px;margin-top:2px;color:#DC2626">Ocupado</div>'}
+  </div>`).join('');
+  const revHTML=p.rev.map(r=>`<div class="review-card">
+    <div class="review-top">
+      <div class="rev-ava" style="background:${r.c}">${r.i}</div>
+      <div><div class="rev-name">${r.n}</div><div style="display:flex;gap:2px;margin:2px 0">${stars(r.r)}</div><div class="rev-date">${r.f}</div></div>
+    </div>
+    <div class="rev-txt">"${r.t}"</div>
+  </div>`).join('');
+  openMod(`
+    <div style="position:relative">
+      <button class="mclose" onclick="closeMod2()">✕</button>
+    </div>
+    <div class="profil-head">
+      <div class="profil-ava" style="background:${p.col}">${p.ini}</div>
+      <h2>${p.n}</h2>
+      <div class="subj">${p.m} · ${p.nv.join(' y ')}</div>
+      <div class="xp" style="margin-top:6px">${p.ver?'✓ Verificado · ':''} ${p.xp} de experiencia · ${p.mo}</div>
+      <div style="display:flex;align-items:center;justify-content:center;gap:6px;margin-top:10px">${stars(p.ra,true)}<span style="font-size:16px;font-weight:800;color:#fff">${p.ra}</span><span style="font-size:12px;color:rgba(255,255,255,.7)">(${p.rv} reseñas)</span></div>
+    </div>
+    <div class="profil-stats">
+      <div class="pstat"><div class="v">$${p.pr.toLocaleString('es-CL')}</div><div class="k">por hora</div></div>
+      <div class="pstat"><div class="v">${p.rv}</div><div class="k">reseñas</div></div>
+      <div class="pstat"><div class="v">${p.ra}★</div><div class="k">calificación</div></div>
+    </div>
+    <div class="psec">
+      <h3>Sobre mí</h3>
+      <p>${p.bio}</p>
+    </div>
+    <div class="psec">
+      <h3>Educación</h3>
+      <p style="white-space:pre-line">${p.edu}</p>
+    </div>
+    <div class="psec">
+      <h3>Disponibilidad esta semana</h3>
+      <div class="schedule-grid">${dispHTML}</div>
+    </div>
+    <div class="action-btns">
+      <button class="btn-full btn-blue" onclick="openContactModal(${p.id})">Contactar a ${p.n.split(' ')[0]}</button>
+      <button class="btn-full btn-orange" onclick="openPayModal(${p.id})">Reservar clase — $${p.pr.toLocaleString('es-CL')}/hr</button>
+    </div>
+    <div class="psec">
+      <h3>Reseñas de alumnos</h3>
+      ${revHTML}
+    </div>
+    <div style="height:20px"></div>
+  `);
+}
+
+function selectSlot(slot){showToast('Horario seleccionado: '+slot);}
+
+function openContactModal(id){
+  const p=PROFS.find(x=>x.id===id);
+  openMod(`
+    <button class="mclose" onclick="closeMod2()">✕</button>
+    <div class="mhead"><h2>Contactar a ${p.n.split(' ')[0]}</h2><p>Elige cómo quieres comunicarte</p></div>
+    <div class="contact-info">
+      <div class="contact-row" onclick="showToast('Llamando a ${p.n.split(' ')[0]}...')">
+        <div class="cicon" style="background:#EBF3FF"><svg viewBox="0 0 24 24" style="stroke:var(--bm)"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 10a19.79 19.79 0 01-3.07-8.67A2 2 0 012 .18h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 14z"/></svg></div>
+        <div class="ctxt"><h4>Llamar por teléfono</h4><p>+56 9 8734 ${2000+p.id*137}</p></div>
+        <div style="margin-left:auto;font-size:20px;color:var(--gt)">›</div>
+      </div>
+      <div class="contact-row" onclick="showToast('Abriendo WhatsApp...')">
+        <div class="cicon" style="background:#E8FDF4"><svg viewBox="0 0 24 24" style="stroke:#0D8A4E"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg></div>
+        <div class="ctxt"><h4>WhatsApp</h4><p>+56 9 8734 ${2000+p.id*137} · Responde en ~30 min</p></div>
+        <div style="margin-left:auto;font-size:20px;color:var(--gt)">›</div>
+      </div>
+      <div class="contact-row" onclick="showToast('Abriendo chat interno...')">
+        <div class="cicon" style="background:var(--op)"><svg viewBox="0 0 24 24" style="stroke:var(--or)"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></div>
+        <div class="ctxt"><h4>Chat TutorYa</h4><p>Mensaje directo dentro de la app</p></div>
+        <div style="margin-left:auto;font-size:20px;color:var(--gt)">›</div>
+      </div>
+      <div class="contact-row" onclick="showToast('Enviando email...')">
+        <div class="cicon" style="background:#EEEDFE"><svg viewBox="0 0 24 24" style="stroke:#534AB7"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+        <div class="ctxt"><h4>Correo electrónico</h4><p>${p.n.split(' ')[0].toLowerCase()}.${p.n.split(' ')[1].toLowerCase()}@tutorya.cl</p></div>
+        <div style="margin-left:auto;font-size:20px;color:var(--gt)">›</div>
+      </div>
+    </div>
+  `);
+}
+
+function openPayModal(id){
+  const p=PROFS.find(x=>x.id===id);
+  selPay=0;
+  openMod(`
+    <button class="mclose" onclick="closeMod2()">✕</button>
+    <div class="mhead"><h2>Reservar clase</h2><p>Con ${p.n} · ${p.m}</p></div>
+    <div class="pay-summary">
+      <div class="pay-row"><span>1 clase (1.5 hrs)</span><span>$${Math.round(p.pr*1.5).toLocaleString('es-CL')}</span></div>
+      <div class="pay-row"><span>Comisión plataforma (5%)</span><span>$${Math.round(p.pr*1.5*0.05).toLocaleString('es-CL')}</span></div>
+      <div class="pay-row"><span>Garantía de satisfacción</span><span style="color:#0D8A4E">Incluido</span></div>
+      <div class="pay-row total"><span>Total</span><span style="color:var(--or)">$${Math.round(p.pr*1.5*1.05).toLocaleString('es-CL')}</span></div>
+    </div>
+    <div class="pay-methods">
+      <h3 style="font-family:'Poppins',sans-serif;font-size:14px;font-weight:700;margin-bottom:12px;padding:0 0 0 0">Método de pago</h3>
+      <div class="pay-method" id="pm0" onclick="selPayMethod(0)">
+        <div class="pm-icon" style="background:#EBF3FF">💳</div>
+        <div class="pm-info"><h4>Tarjeta •••• 4512</h4><p>Visa · Vence 03/27</p></div>
+        <div class="pm-check"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></div>
+      </div>
+      <div class="pay-method" id="pm1" onclick="selPayMethod(1)">
+        <div class="pm-icon" style="background:#E8FDF4">🏦</div>
+        <div class="pm-info"><h4>Transferencia bancaria</h4><p>Banco de Chile · Cta. Cte.</p></div>
+        <div class="pm-check"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></div>
+      </div>
+      <div class="pay-method" id="pm2" onclick="selPayMethod(2)">
+        <div class="pm-icon" style="background:var(--op)">📱</div>
+        <div class="pm-info"><h4>Mercado Pago</h4><p>Pago en cuotas disponible</p></div>
+        <div class="pm-check"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></div>
+      </div>
+    </div>
+    <div style="padding:16px 20px">
+      <button class="btn-full btn-orange" onclick="confirmPago('${p.n}')">Confirmar reserva</button>
+    </div>
+    <div style="text-align:center;font-size:11px;color:var(--gt);padding:0 20px 20px">🔒 Pago seguro · Si la clase no ocurre, te devolvemos el dinero.</div>
+  `);
+  selPayMethod(0);
+}
+
+function selPayMethod(i){
+  document.querySelectorAll('.pay-method').forEach(m=>m.classList.remove('sel'));
+  const el=document.getElementById('pm'+i);
+  if(el) el.classList.add('sel');
+}
+
+function confirmPago(nombre){
+  closeMod2();
+  setTimeout(()=>{
+    openMod(`
+      <div style="padding:40px 24px;text-align:center">
+        <div style="width:72px;height:72px;background:#E8FDF4;border-radius:50%;margin:0 auto 16px;display:flex;align-items:center;justify-content:center;font-size:32px">✓</div>
+        <h2 style="font-family:'Poppins',sans-serif;font-size:20px;font-weight:800;margin-bottom:8px">¡Clase reservada!</h2>
+        <p style="font-size:14px;color:var(--gt);line-height:1.6;margin-bottom:24px">Tu clase con <strong>${nombre}</strong> fue confirmada. Recibirás un correo con el link de Zoom y los detalles.</p>
+        <div style="background:var(--gb);border-radius:14px;padding:16px;margin-bottom:20px;text-align:left">
+          <div style="display:flex;justify-content:space-between;font-size:13px;padding:4px 0"><span style="color:var(--gt)">Profesor/a</span><span style="font-weight:700">${nombre}</span></div>
+          <div style="display:flex;justify-content:space-between;font-size:13px;padding:4px 0"><span style="color:var(--gt)">Fecha</span><span style="font-weight:700">Viernes 24, 16:00</span></div>
+          <div style="display:flex;justify-content:space-between;font-size:13px;padding:4px 0"><span style="color:var(--gt)">Modalidad</span><span style="font-weight:700">Online (Zoom)</span></div>
+          <div style="display:flex;justify-content:space-between;font-size:13px;padding:4px 0;border-top:1px solid var(--gd);margin-top:6px;padding-top:10px"><span style="color:var(--gt)">Total pagado</span><span style="font-weight:800;color:var(--or)">$28.350</span></div>
+        </div>
+        <button class="btn-full btn-blue" onclick="closeMod2();switchTab('mis')">Ver en Mis Clases</button>
+      </div>
+    `);
+  },300);
+}
+
+function openPreu(id){
+  const p=PREUS.find(x=>x.id===id);
+  curPreu=p;
+  const planesHTML=p.planes.map(pl=>`<div class="plan-card${pl.rec?' recm':''}">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px">
+      <div>
+        ${pl.rec?`<div style="background:var(--op);color:var(--or);font-size:10px;font-weight:800;padding:3px 8px;border-radius:8px;display:inline-block;margin-bottom:6px">RECOMENDADO</div><br>`:''}
+        <div class="plan-name">${pl.n}</div>
+      </div>
+      <div><div class="plan-price">$${Math.round(pl.pr/1000)}K<sub>/mes</sub></div></div>
+    </div>
+    <ul class="plan-features">${pl.f.map(f=>`<li>${f}</li>`).join('')}</ul>
+    <button class="btn-full btn-blue" style="margin-top:14px" onclick="openPreuPago('${p.n}','${pl.n}',${pl.pr})">Inscribirme — $${Math.round(pl.pr/1000)}K/mes</button>
+  </div>`).join('');
+  const revHTML=p.rev.map(r=>`<div class="review-card">
+    <div class="review-top">
+      <div class="rev-ava" style="background:${r.c}">${r.i}</div>
+      <div><div class="rev-name">${r.n}</div><div style="display:flex;gap:2px;margin:2px 0">${stars(r.r)}</div><div class="rev-date">${r.f}</div></div>
+    </div>
+    <div class="rev-txt">"${r.t}"</div>
+  </div>`).join('');
+  openMod(`
+    <button class="mclose" onclick="closeMod2()">✕</button>
+    <div class="preu-det-head" style="background:${p.col}">
+      <div class="prlogo" style="background:rgba(255,255,255,.2);width:60px;height:60px;font-size:16px">${p.s}</div>
+      <h2>${p.n}</h2>
+      <p>${p.tg}</p>
+      <div style="display:flex;align-items:center;gap:6px;margin-top:10px">${stars(p.ra,true)}<span style="font-size:16px;font-weight:800;color:#fff">${p.ra}</span><span style="font-size:12px;color:rgba(255,255,255,.7)">(${p.rv} reseñas)</span></div>
+    </div>
+    <div class="profil-stats">
+      <div class="pstat"><div class="v">${p.pt}</div><div class="k">Puntaje prom.</div></div>
+      <div class="pstat"><div class="v">${p.ap}%</div><div class="k">Acceso univ.</div></div>
+      <div class="pstat"><div class="v">${p.años} años</div><div class="k">Experiencia</div></div>
+    </div>
+    <div class="psec"><h3>Sobre el preuniversitario</h3><p>${p.desc}</p></div>
+    <div class="psec">
+      <h3>Comunas y modalidad</h3>
+      <div class="tags" style="gap:6px">${p.com.map(c=>`<span class="b bb">${c}</span>`).join('')}<span class="b ${p.mo==='Online'?'bg':p.mo==='Presencial'?'bo':'bb'}">${p.mo}</span></div>
+    </div>
+    <div class="psec">
+      <h3>Planes y precios</h3>
+      ${planesHTML}
+    </div>
+    <div class="psec">
+      <h3>Opiniones de alumnos</h3>
+      ${revHTML}
+    </div>
+    <div style="height:20px"></div>
+  `);
+}
+
+function openPreuPago(nombre,plan,precio){
+  openMod(`
+    <button class="mclose" onclick="closeMod2()">✕</button>
+    <div class="mhead"><h2>Inscripción</h2><p>${nombre} · ${plan}</p></div>
+    <div class="pay-summary">
+      <div class="pay-row"><span>${plan}</span><span>$${precio.toLocaleString('es-CL')}</span></div>
+      <div class="pay-row"><span>Matrícula (primer mes)</span><span>$${Math.round(precio*0.3).toLocaleString('es-CL')}</span></div>
+      <div class="pay-row"><span>Material didáctico</span><span>Incluido</span></div>
+      <div class="pay-row total"><span>Total primer pago</span><span style="color:var(--or)">$${Math.round(precio*1.3).toLocaleString('es-CL')}</span></div>
+    </div>
+    <div class="pay-methods">
+      <h3 style="font-family:'Poppins',sans-serif;font-size:14px;font-weight:700;margin-bottom:12px">Método de pago</h3>
+      <div class="pay-method sel" onclick="showToast('Tarjeta seleccionada')">
+        <div class="pm-icon" style="background:#EBF3FF">💳</div>
+        <div class="pm-info"><h4>Tarjeta •••• 4512</h4><p>Visa · Vence 03/27</p></div>
+        <div class="pm-check"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></div>
+      </div>
+      <div class="pay-method" onclick="showToast('Transferencia seleccionada')">
+        <div class="pm-icon" style="background:#E8FDF4">🏦</div>
+        <div class="pm-info"><h4>Transferencia bancaria</h4><p>Banco de Chile</p></div>
+        <div class="pm-check"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></div>
+      </div>
+    </div>
+    <div style="padding:16px 20px">
+      <button class="btn-full btn-orange" onclick="confirmPreuPago('${nombre}','${plan}',${precio})">Confirmar inscripción</button>
+    </div>
+  `);
+}
+
+function confirmPreuPago(nombre,plan,precio){
+  closeMod2();
+  setTimeout(()=>{
+    openMod(`
+      <div style="padding:40px 24px;text-align:center">
+        <div style="width:72px;height:72px;background:#E8FDF4;border-radius:50%;margin:0 auto 16px;display:flex;align-items:center;justify-content:center;font-size:32px">✓</div>
+        <h2 style="font-family:'Poppins',sans-serif;font-size:20px;font-weight:800;margin-bottom:8px">¡Inscripción confirmada!</h2>
+        <p style="font-size:14px;color:var(--gt);line-height:1.6;margin-bottom:24px">Tu inscripción en <strong>${nombre}</strong> con el <strong>${plan}</strong> fue procesada. Te contactarán en las próximas 24 horas.</p>
+        <button class="btn-full btn-blue" onclick="closeMod2()">¡Perfecto!</button>
+      </div>
+    `);
+  },300);
+}
+
+function openClaseModal(t){
+  const data={
+    hoy:{profe:"Camila Rojas",subj:"Matemáticas · PSU/PAES",hora:"18:00 – 19:30",mod:"Online (Zoom)",ini:"CR",col:"#1A5CBF",link:"zoom.us/j/98234"},
+    prox1:{profe:"Valentina Muñoz",subj:"Física · PSU/PAES",hora:"16:00 – 17:30",mod:"Online (Meet)",ini:"VM",col:"#0D8A4E",link:"meet.google.com/xyz"},
+    prox2:{profe:"Tomás Herrera",subj:"Inglés · Ed. Media",hora:"17:00 – 18:00",mod:"Presencial · Av. Providencia 1234",ini:"TH",col:"#F76B1C",link:null}
+  }[t];
+  openMod(`
+    <button class="mclose" onclick="closeMod2()">✕</button>
+    <div class="mhead"><h2>Detalle de clase</h2></div>
+    <div style="padding:16px 20px">
+      <div style="display:flex;gap:14px;align-items:center;margin-bottom:20px">
+        <div style="width:60px;height:60px;border-radius:16px;background:${data.col};display:flex;align-items:center;justify-content:center;font-family:'Poppins',sans-serif;font-weight:800;font-size:20px;color:#fff">${data.ini}</div>
+        <div><div style="font-size:16px;font-weight:800">${data.profe}</div><div style="font-size:13px;color:var(--bm);font-weight:700">${data.subj}</div></div>
+      </div>
+      <div style="background:var(--gb);border-radius:14px;padding:16px;margin-bottom:16px">
+        <div style="display:flex;justify-content:space-between;font-size:13px;padding:6px 0;border-bottom:1px solid var(--gd)"><span style="color:var(--gt)">Horario</span><span style="font-weight:700">${data.hora}</span></div>
+        <div style="display:flex;justify-content:space-between;font-size:13px;padding:6px 0"><span style="color:var(--gt)">Modalidad</span><span style="font-weight:700">${data.mod}</span></div>
+      </div>
+      ${data.link?`<button class="btn-full btn-blue" onclick="showToast('Abriendo ${data.link}')">Unirse a la clase</button>`:`<button class="btn-full btn-blue" onclick="showToast('Ver ubicación en Maps')">Ver ubicación en Maps</button>`}
+      <button class="btn-full btn-outline" style="margin-top:10px" onclick="showToast('Chat abierto con ${data.profe.split(' ')[0]}')">Enviar mensaje</button>
+      <button class="btn-full" style="background:var(--gb);color:var(--gt);margin-top:10px" onclick="openCancelModal()">Reprogramar clase</button>
+    </div>
+  `);
+}
+
+function openCancelModal(){
+  openMod(`
+    <button class="mclose" onclick="closeMod2()">✕</button>
+    <div class="mhead"><h2>Reprogramar clase</h2><p>Elige un nuevo horario disponible</p></div>
+    <div style="padding:16px 20px">
+      <div class="schedule-grid">
+        <div class="slot avail" onclick="selectSlot('Lun 18:00')"><div class="sday">Lun</div><div class="stime">18:00</div><div style="font-size:9px;color:#0D8A4E">Disponible</div></div>
+        <div class="slot" onclick="showToast('Horario no disponible')"><div class="sday">Mar</div><div class="stime">18:00</div><div style="font-size:9px;color:#DC2626">Ocupado</div></div>
+        <div class="slot avail" onclick="selectSlot('Mié 18:00')"><div class="sday">Mié</div><div class="stime">18:00</div><div style="font-size:9px;color:#0D8A4E">Disponible</div></div>
+        <div class="slot avail" onclick="selectSlot('Jue 17:00')"><div class="sday">Jue</div><div class="stime">17:00</div><div style="font-size:9px;color:#0D8A4E">Disponible</div></div>
+        <div class="slot avail" onclick="selectSlot('Sáb 10:00')"><div class="sday">Sáb</div><div class="stime">10:00</div><div style="font-size:9px;color:#0D8A4E">Disponible</div></div>
+        <div class="slot" onclick="showToast('Horario no disponible')"><div class="sday">Dom</div><div class="stime">—</div><div style="font-size:9px;color:#DC2626">No disponible</div></div>
+      </div>
+      <button class="btn-full btn-blue" style="margin-top:16px" onclick="closeMod2();showToast('Clase reprogramada correctamente ✓')">Confirmar nuevo horario</button>
+    </div>
+  `);
+}
+
+function openReviewModal(){
+  let sel=5;
+  openMod(`
+    <button class="mclose" onclick="closeMod2()">✕</button>
+    <div class="mhead"><h2>Calificar clase</h2><p>¿Cómo fue tu experiencia con Camila?</p></div>
+    <div style="padding:16px 20px">
+      <div style="text-align:center;margin-bottom:20px">
+        <div style="font-size:40px;margin-bottom:8px" id="star-display">⭐⭐⭐⭐⭐</div>
+        <div style="font-size:13px;color:var(--gt)" id="star-label">Excelente</div>
+      </div>
+      <div style="display:flex;justify-content:center;gap:16px;margin-bottom:20px">
+        ${[1,2,3,4,5].map(i=>`<button onclick="setRev(${i})" style="font-size:28px;background:none;border:none;cursor:pointer;opacity:${i<=5?1:0.4}" id="rs${i}">★</button>`).join('')}
+      </div>
+      <textarea placeholder="Cuéntanos cómo fue la clase (opcional)..." style="width:100%;padding:12px;border:1.5px solid var(--gd);border-radius:12px;font-family:'Nunito',sans-serif;font-size:13px;resize:none;height:100px;outline:none;color:var(--td)"></textarea>
+      <button class="btn-full btn-orange" style="margin-top:14px" onclick="closeMod2();showToast('¡Gracias por tu reseña! ✓')">Enviar calificación</button>
+    </div>
+  `);
+}
+function setRev(n){
+  const lbls=['','Muy malo','Malo','Regular','Bueno','Excelente'];
+  document.getElementById('star-label').textContent=lbls[n];
+  document.getElementById('star-display').textContent='⭐'.repeat(n)+'✩'.repeat(5-n).replace(/✩/g,'☆');
+}
+
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2500);
+}
+
+renderProfs(PROFS);
+renderPreus(PREUS);
+</script>
+</body>
+</html>
